@@ -67,6 +67,10 @@ export const Carousel = ({ carouselData : slides, autoPlay }) => {
     useEffect(()=>{
         autoPlayRef.current = nextSlide
         transitionRef.current = smoothTransition
+        return ()=>{
+            autoPlayRef.current = ()=>{}
+            transitionRef.current = ()=>{}
+        }
     })
 
     useEffect(()=>{
