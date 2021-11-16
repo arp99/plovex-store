@@ -1,10 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import "twin.macro"
-import { useState } from "react";
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs"
+import { useDispatch, useSelector } from "react-redux";
+import { addToWishlist, removeFromWishlist } from "../../app/Features/Wishlist/wishlist";
 
-export const Productcard = ({ productImg, title, newPrice, oldPrice, newProduct }) => {
-    const [ inWishlist, setWishlist ] = useState(false)
+export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, newProduct, inWishlist }) => {
+    const { userId } = useSelector( state => state.auth )
+    const wishlistDispatch = useDispatch()
+
     return (
         <div 
             tw="flex flex-col w-full cursor-pointer duration-300 ease-in-out rounded-lg text-left pb-2 hover:shadow-xl"
@@ -15,8 +18,12 @@ export const Productcard = ({ productImg, title, newPrice, oldPrice, newProduct 
                     alt="product" 
                     tw="w-full h-full" 
                 />
-                <div tw="p-1 rounded-xl bg-secondary w-max absolute right-1 bottom-1" onClick={()=>setWishlist(prev => !prev)}>
-                    { inWishlist ? <BsSuitHeartFill /> : <BsSuitHeart /> }
+                <div tw="p-1 rounded-xl bg-secondary w-max absolute right-1 bottom-1" >
+                    { 
+                        inWishlist ? 
+                        <BsSuitHeartFill onClick={()=>wishlistDispatch(removeFromWishlist({ productId, userId }))} /> 
+                        : 
+                        <BsSuitHeart onClick={()=>wishlistDispatch(addToWishlist({ productId, userId }))}  /> }
                 </div>
             </div>
 
