@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react"
+import { Link } from "react-router-dom"
 import tw from "twin.macro"
 import { Button } from "../Buttons/Button"
 
@@ -27,9 +28,11 @@ const Slide = props =>{
                 >
                     { props.title }
                 </p>
-                <Button variant="primary">
-                    Shop Now
-                </Button>
+                <Link to={`${ props.route }`}>
+                    <Button variant="primary">
+                        Shop Now
+                    </Button>
+                </Link>
             </div>
         </div>
     )

@@ -110,7 +110,7 @@ export const Carousel = ({ carouselData : slides, autoPlay }) => {
             >
                 {
                     _slides.map( (_slide, idx) =>(
-                        <Slide url = { _slide.url } title={ _slide.title } key = { idx } />
+                        <Slide url = { _slide.url } title={ _slide.title } route={_slide.route} key = { idx } />
                     ))
                 }
             </CarouselContent>
