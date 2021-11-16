@@ -3,6 +3,7 @@ import { css } from "@emotion/react"
 import { useState } from "react"
 import { AiOutlineMenu } from "react-icons/ai"
 import { BsCartFill, BsHeartFill, BsPersonFill, BsSearch } from "react-icons/bs"
+import { Link } from "react-router-dom"
 import tw from "twin.macro"
 import { Menu } from "../Menu/Menu"
 
@@ -24,9 +25,15 @@ export const Navbar = () => {
                 `
             }>
                 <BsSearch  cursor="pointer" size={22} />
-                <BsHeartFill cursor="pointer" size={22} />
-                <BsCartFill cursor="pointer" size={22} />
-                <BsPersonFill cursor="pointer" size={22} />
+                <Link to="/wishlist">
+                    <BsHeartFill cursor="pointer" size={22} />
+                </Link>
+                <Link to="/cart">
+                    <BsCartFill cursor="pointer" size={22} />
+                </Link>
+                <Link to="/profile">
+                    <BsPersonFill cursor="pointer" size={22} />
+                </Link>
             </div>
             {
                 showMenu && <Menu hideMenu={ setShowMenu } menuOpen={ showMenu } />
