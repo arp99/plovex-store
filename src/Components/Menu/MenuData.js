@@ -15,32 +15,27 @@ const MenuData = [
             {
                 id : uuidv4(),
                 category : "Shirts",
-                route : "/men/shirts"
+                route : "/products/category/shirts"
             },
             {
                 id : uuidv4(),
                 category : "T-Shirts",
-                route : "/men/t-shirts"
+                route : "/products/category/t-shirt"
             },
             {
                 id : uuidv4(),
                 category : "Shorts",
-                route : "/men/shorts"
+                route : "/products/category/shorts"
             },
             {
                 id : uuidv4(),
                 category : "Jeans",
-                route : "/men/jeans"
+                route : "/products/category/jeans"
             },
             {
                 id : uuidv4(),
                 category : "Sweatpants",
-                route : "/men/sweatpants"
-            },
-            {
-                id : uuidv4(),
-                category : "Sweatshirts",
-                route : "/men/sweatshirts"
+                route : "/products/category/sweatpants"
             },
         ]
     },
@@ -52,23 +47,13 @@ const MenuData = [
             {
                 id : uuidv4(),
                 category : "Tops",
-                route : "/women/tops"
-            },
-            {
-                id : uuidv4(),
-                category : "Bottoms",
-                route : "/women/bottoms"
+                route : "/products/category/tops"
             },
             {
                 id : uuidv4(),
                 category : "Dresses",
-                route : "/women/dresses"
+                route : "/products/category/dresses"
             },
-            {
-                id : uuidv4(),
-                category : "Jackets",
-                route : "/women/jackets"
-            }
         ]
     },
     {
@@ -78,13 +63,23 @@ const MenuData = [
         content : [
             {
                 id : uuidv4(),
-                category : "neog shirt company",
-                route : "/brands/neog/shirts"
+                category : "Indie",
+                route : "/products/brand/indie"
             },
             {
                 id : uuidv4(),
-                category : "TDZ shirts",
-                route : "/brands/tdz/shirts"
+                category : "Korra",
+                route : "/products/brand/korra"
+            },
+            {
+                id : uuidv4(),
+                category : "Cityof_",
+                route : "/products/brand/cityof_"
+            },
+            {
+                id : uuidv4(),
+                category : "Flora",
+                route : "/products/brand/flora"
             }
         ]
     },

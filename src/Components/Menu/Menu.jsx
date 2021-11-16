@@ -5,6 +5,7 @@ import tw, { styled } from "twin.macro"
 import MenuData from "./MenuData"
 import { AiOutlineClose } from "react-icons/ai"
 import ExpandableItem from "./ExpandableItem"
+import { Link } from "react-router-dom"
 
 const StyledMenuItem = styled.div`
     border-bottom-width: 1px;
@@ -84,7 +85,7 @@ export const Menu = ({ hideMenu, menuOpen }) =>{
                 </div>
                 <div>
                     {
-                        MenuData.map(({ id, expandable, title, content }) => 
+                        MenuData.map(({ id, expandable, title, content, route }) => 
                             expandable ? 
                                 <ExpandableItem 
                                     title={ title } 
@@ -95,13 +96,25 @@ export const Menu = ({ hideMenu, menuOpen }) =>{
                                     key={ id }
                                 />
                                 :
-                                <StyledMenuItem key={ id } >
-                                    { title }
-                                </StyledMenuItem>
+                                <Link to={`${route}`} key={ id }>
+                                    <StyledMenuItem>
+                                        { title }
+                                    </StyledMenuItem>
+                                </Link>
                         )
                     }
                     <StyledMenuItem tw="text-tertiary text-base border-0 py-3">
-                        <span>Login</span> | <span>Register</span>
+                        <span>
+                            <Link to="/login">
+                                Login
+                            </Link> 
+                        </span>
+                        | 
+                        <span>
+                            <Link to="/signup">
+                                Register
+                            </Link>
+                        </span>
                     </StyledMenuItem>
                 </div>
             </div>
