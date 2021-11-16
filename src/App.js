@@ -1,10 +1,26 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router';
 import './App.css';
+import { fetchFomWishlist } from './app/Features/Wishlist/wishlist';
 import { Navbar } from './Components';
 import { Brand, Cart, Category, Home, Login, NewReleased, Profile, Signup, Wishlist } from './Pages';
 import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 
 function App() {
+
+  // TODO: Fetch wishlist in cart data on login 
+  const { userId } = useSelector( state => state.auth )
+  const { wishlistFetchStatus } = useSelector( state => state.wishlist )
+  const wishlistDispatch = useDispatch()
+
+  useEffect(()=>{
+    if( userId && wishlistFetchStatus === 'idle'){
+      wishlistDispatch( fetchFomWishlist({ userId }))
+    }
+  },[ userId, wishlistDispatch, wishlistFetchStatus ])
+
+
   return (
     <div className="App">
       <Navbar />
