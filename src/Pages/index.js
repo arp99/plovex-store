@@ -1,1 +1,7 @@
 export { Home } from "./Home/Home"
+export { Login } from "./UserAuthentication/Login"
+export { Signup } from "./UserAuthentication/Signup"
+export { Profile } from "./Profile/Profile"
+export { Cart } from "./Cart/Cart"
+export { Wishlist } from "./Wishlist/Wishlist"
+export { Products, Category, Brand, NewReleased } from "./Products"
