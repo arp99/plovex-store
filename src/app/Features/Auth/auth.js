@@ -5,7 +5,7 @@ import { loginUser, signupUser } from "./services/authServices"
 export const login = createAsyncThunk('auth/login' , async ( { email, password } )=>{
     const response = await loginUser( email, password )
     console.log("From login async thunk:", { response })
-    return response.data.token
+    return response.data
 })
 
 export const signup = createAsyncThunk('auth/signup', async ( { firstName, lastName, email, password })=>{
@@ -17,6 +17,7 @@ export const signup = createAsyncThunk('auth/signup', async ( { firstName, lastN
 
 const authInitialState = {
     token          : localStorage.getItem('token') || null,
+    userId         : localStorage.getItem("id") || null,
     loggedInStatus : localStorage.getItem('token') ? 'fulfilled' : 'idle',
     loggedInError  : null,
     signupStatus   : 'idle',
@@ -29,7 +30,9 @@ export const authSlice = createSlice({
     reducers : {
         logout : ( state ) => {
             localStorage.removeItem('token')
+            localStorage.removeItem('id')
             state.token = null
+            state.userId = null
             state.loggedInStatus = 'idle'
             state.loggedInError = null
         },
@@ -48,9 +51,12 @@ export const authSlice = createSlice({
         [ login.fulfilled ] : ( state, action ) => {
             //once fulfilled the token will come in the action.payload
             console.log("From extra reducers in login:", action.payload )
-            state.token = action.payload
+            const { token, userId } = action.payload
+            state.token = token
+            state.userId = userId
             state.loggedInStatus = 'fulfilled'
-            localStorage.setItem('token', action.payload )
+            localStorage.setItem('token', token )
+            localStorage.setItem('id', userId )
         },
         [ login.rejected ] : ( state ) => {
             state.loggedInStatus = state.loggedInError ='error'
