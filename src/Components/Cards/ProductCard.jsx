@@ -3,12 +3,22 @@ import "twin.macro"
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, removeFromWishlist } from "../../app/Features/Wishlist/wishlist";
+import { Link } from "react-router-dom";
 
 export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, newProduct, inWishlist }) => {
     const { userId } = useSelector( state => state.auth )
     const wishlistDispatch = useDispatch()
 
     return (
+        <Link to={`/products/${productId}`}
+            state = {{
+                productImg,
+                title,
+                newPrice,
+                oldPrice,
+                inWishlist
+            }}
+        >
         <div 
             tw="flex flex-col w-full cursor-pointer duration-300 ease-in-out rounded-lg text-left pb-2 hover:shadow-xl"
         >
@@ -43,5 +53,6 @@ export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, 
                 { newProduct && <p tw="text-red-500 text-sm tracking-wider">New</p>}
             </div>
         </div>
+        </Link>
     );
 }
