@@ -19,40 +19,40 @@ export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, 
                 inWishlist
             }}
         >
-        <div 
-            tw="flex flex-col w-full cursor-pointer duration-300 ease-in-out rounded-lg text-left pb-2 hover:shadow-xl"
-        >
-            <div tw="w-full h-96 relative">
-                <img 
-                    src={ productImg } 
-                    alt="product" 
-                    tw="w-full h-full" 
-                />
-                <div tw="p-1 rounded-xl bg-secondary w-max absolute right-1 bottom-1" >
-                    { 
-                        inWishlist ? 
-                        <BsSuitHeartFill onClick={()=>wishlistDispatch(removeFromWishlist({ productId, userId }))} /> 
-                        : 
-                        <BsSuitHeart onClick={()=>wishlistDispatch(addToWishlist({ productId, userId }))}  /> }
+            <div
+                tw="flex flex-col w-full cursor-pointer duration-300 ease-in-out rounded-lg text-left pb-2 hover:shadow-xl"
+            >
+                <div tw="w-full h-96 relative">
+                    <img
+                        src={ productImg }
+                        alt="product"
+                        tw="w-full h-full"
+                    />
+                    <div tw="p-1 rounded-xl bg-secondary w-max absolute right-1 bottom-1" >
+                        { 
+                            inWishlist ?
+                            <BsSuitHeartFill onClick={()=>wishlistDispatch(removeFromWishlist({ productId, userId }))} />
+                            :
+                            <BsSuitHeart onClick={()=>wishlistDispatch(addToWishlist({ productId, userId }))}  /> }
+                    </div>
+                </div>
+
+                <div
+                    tw="
+                        flex flex-col
+                        justify-between
+                        px-2
+                        flex-1
+                    "
+                >
+                    <p tw="text-primary text-lg">{ title }</p>
+                    <p tw="text-tertiary text-base">
+                        <span>Rs. { newPrice }</span>
+                        { oldPrice > 0 && <span tw="line-through ml-4">Rs. { oldPrice }</span>}
+                    </p>
+                    { newProduct && <p tw="text-red-500 text-sm tracking-wider">New</p>}
                 </div>
             </div>
-
-            <div 
-                tw="
-                    flex flex-col
-                    justify-between
-                    px-2
-                    flex-1
-                "
-            >
-                <p tw="text-primary text-lg">{ title }</p>
-                <p tw="text-tertiary text-base">
-                    <span>Rs. { newPrice }</span>
-                    { oldPrice > 0 && <span tw="line-through ml-4">Rs. { oldPrice }</span>}
-                </p>
-                { newProduct && <p tw="text-red-500 text-sm tracking-wider">New</p>}
-            </div>
-        </div>
         </Link>
     );
 }
