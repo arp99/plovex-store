@@ -2,9 +2,10 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router';
 import './App.css';
+import { fetchCartItems } from './app/Features/Cart/Cart';
 import { fetchFomWishlist } from './app/Features/Wishlist/wishlist';
 import { Navbar } from './Components';
-import { Brand, Cart, Category, Home, Login, NewReleased, Profile, Signup, Wishlist } from './Pages';
+import { Brand, Cart, Category, Home, Login, NewReleased, ProductDescription, Profile, Signup, Wishlist } from './Pages';
 import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 
 function App() {
@@ -12,14 +13,20 @@ function App() {
   // TODO: Fetch wishlist in cart data on login 
   const { userId } = useSelector( state => state.auth )
   const { wishlistFetchStatus } = useSelector( state => state.wishlist )
-  const wishlistDispatch = useDispatch()
+  const { cartFetchStatus } = useSelector( state => state.cart )
+  const dispatch = useDispatch()
 
   useEffect(()=>{
     if( userId && wishlistFetchStatus === 'idle'){
-      wishlistDispatch( fetchFomWishlist({ userId }))
+      dispatch( fetchFomWishlist({ userId }))
     }
-  },[ userId, wishlistDispatch, wishlistFetchStatus ])
+  },[ userId, dispatch, wishlistFetchStatus ])
 
+  useEffect(()=>{
+    if( userId && cartFetchStatus === 'idle'){
+      dispatch(fetchCartItems({ userId }))
+    }
+  },[ userId, dispatch, cartFetchStatus ])
 
   return (
     <div className="App">
@@ -32,6 +39,7 @@ function App() {
           <Route path="new_releases" element={<NewReleased />}/>
           <Route path="brand/:brandname" element={<Brand />}/>
           <Route path="category/:categoryname" element={<Category />}/>
+          <Route path=":productId" element={<ProductDescription />} />
         </Route>
 
         <Route path="/wishlist" 
