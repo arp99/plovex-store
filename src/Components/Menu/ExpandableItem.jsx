@@ -36,7 +36,7 @@ const ExpandableItem = ({ id, title, content, expandItem, handleClick }) => {
                 {
                     expandItem && content.map(({ id, category, route })=> 
                     
-                        <Link to={`${route}`} key={id}>
+                        <Link to={`${route}`} key={id} tw="no-underline text-current">
                             <HiddenItem>{ category }</HiddenItem>
                         </Link>
                     )

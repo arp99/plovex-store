@@ -25,13 +25,13 @@ export const Navbar = () => {
                 `
             }>
                 <BsSearch  cursor="pointer" size={22} />
-                <Link to="/wishlist">
+                <Link to="/wishlist" tw="no-underline text-current">
                     <BsHeartFill cursor="pointer" size={22} />
                 </Link>
-                <Link to="/cart">
+                <Link to="/cart" tw="no-underline text-current">
                     <BsCartFill cursor="pointer" size={22} />
                 </Link>
-                <Link to="/profile">
+                <Link to="/profile" tw="no-underline text-current">
                     <BsPersonFill cursor="pointer" size={22} />
                 </Link>
             </div>

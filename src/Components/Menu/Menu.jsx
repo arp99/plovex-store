@@ -96,7 +96,7 @@ export const Menu = ({ hideMenu, menuOpen }) =>{
                                     key={ id }
                                 />
                                 :
-                                <Link to={`${route}`} key={ id }>
+                                <Link to={`${route}`} key={ id } tw="no-underline text-current" >
                                     <StyledMenuItem>
                                         { title }
                                     </StyledMenuItem>
@@ -105,13 +105,13 @@ export const Menu = ({ hideMenu, menuOpen }) =>{
                     }
                     <StyledMenuItem tw="text-tertiary text-base border-0 py-3">
                         <span>
-                            <Link to="/login">
+                            <Link to="/login" tw="no-underline text-current">
                                 Login
                             </Link> 
                         </span>
                         | 
                         <span>
-                            <Link to="/signup">
+                            <Link to="/signup" tw="no-underline text-current">
                                 Register
                             </Link>
                         </span>
