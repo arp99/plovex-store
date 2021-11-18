@@ -80,6 +80,7 @@ export const wishlistSlice = createSlice({
             console.log("Inside fetchFomWishlist extraReducers: ", action.payload)
             const { products } = action.payload.data
             state.products = products.map(({ productId }) => productId )
+            state.wishlistFetchStatus = 'fulfilled'
         },
         [ fetchFomWishlist.rejected ] : ( state ) => {
             state.wishlistFetchStatus = state.wishlistFetchError = 'error'
