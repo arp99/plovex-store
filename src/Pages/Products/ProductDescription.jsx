@@ -2,11 +2,12 @@
 import { css } from "@emotion/react"
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useLocation, useParams } from "react-router"
+import { useLocation, useParams, useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 import tw from "twin.macro"
 import { addToCart, decreaseQuantity } from "../../app/Features/Cart/Cart"
 import { getItemQuantity, isProductInCart } from "../../app/Features/Cart/services/cartServices"
+import { addToWishlist } from "../../app/Features/Wishlist/wishlist"
 import { Button } from "../../Components"
 import { IncrementDecrementBtn } from "../../Components/styledComponents/StyledComponents"
 
@@ -27,6 +28,7 @@ export const ProductDescription = ( ) => {
     const inCart = isProductInCart(products, productId)
     const quantityInCart = getItemQuantity(products, productId)
     const [ quantity, setQuantity ] = useState(!inCart && 1 )
+    const navigate = useNavigate()
 
     useEffect(()=>{
         if( inCart ){
@@ -58,9 +60,9 @@ export const ProductDescription = ( ) => {
                     tw="w-full h-full md:(px-2 justify-start)"
                 >
                     <p tw="text-primary-ligter w-max font-bold text-xl mb-3 mx-auto md:mx-0">{ title }</p>
-                    <p tw="w-48 mx-auto flex justify-between text-tertiary text-lg mb-7 md:(w-2/3 mx-0) ">
+                    <p tw="w-max mx-auto flex justify-between text-tertiary text-lg mb-7 md:(w-2/3 mx-0) ">
                         <span>Rs.{ newPrice }</span>  
-                        { oldPrice > 0 && <span tw="line-through">Rs.{ oldPrice }</span>}
+                        { oldPrice > 0 && <span tw="line-through ml-3">Rs.{ oldPrice }</span>}
                     </p>
                     <div tw="w-32 mb-4 mx-auto flex justify-between items-center md:mx-0">
                         <IncrementDecrementBtn 
@@ -70,7 +72,7 @@ export const ProductDescription = ( ) => {
                                 `
                             }
                             onClick={(evt)=>{
-                                if( quantity > 1){
+                                if( userId && quantity > 1){
                                     dispatch(decreaseQuantity({ productId, userId }))
                                 }else{
                                     evt.preventDefault()
@@ -85,7 +87,7 @@ export const ProductDescription = ( ) => {
                                 `
                             }
                             onClick={(evt)=>{
-                                if( quantity < 5 ){
+                                if( userId && quantity < 5 ){
                                     dispatch(addToCart({ productId, userId }))
                                 }else{
                                     evt.preventDefault()
@@ -93,7 +95,7 @@ export const ProductDescription = ( ) => {
                             }}
                         >+</IncrementDecrementBtn>
                     </div>
-                    <div tw="w-full flex justify-center md:(w-72 justify-between)">
+                    <div tw="w-full flex justify-center md:(justify-between)">
                         {
                             inCart 
                             ?                  
@@ -104,7 +106,14 @@ export const ProductDescription = ( ) => {
                             <Button 
                                 variant="primary"
                                 size="small"
-                                onClick={()=> dispatch(addToCart({ productId, userId }))}
+                                onClick={()=>{
+                                        if(userId){
+                                            dispatch(addToCart({ productId, userId }))
+                                        }else{
+                                            navigate("/login")
+                                        }
+                                    } 
+                                }
                             >
                                 Add to Cart
                             </Button>
@@ -112,11 +121,23 @@ export const ProductDescription = ( ) => {
                         {
                             inWishlist 
                             ?
-                            <Link to="/cart">
+                            <Link to="/wishlist">
                                 <Button variant="secondary" size="small">Go to Wishlist</Button>
                             </Link>
                             :
-                            <Button variant="secondary" size="small">Add to Wishlist</Button>
+                            <Button 
+                                variant="secondary" 
+                                size="small"
+                                onClick={()=>{
+                                    if(userId){
+                                        dispatch( addToWishlist({ productId, userId }))
+                                    }else{
+                                        navigate("/login")
+                                    }
+                                }}
+                            >
+                                Add to Wishlist
+                            </Button>
                         }
                     </div>
                 </div>
