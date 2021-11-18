@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 import tw from "twin.macro"
 import { addToCart, decreaseQuantity } from "../../app/Features/Cart/Cart"
 import { getItemQuantity, isProductInCart } from "../../app/Features/Cart/services/cartServices"
+import { isProductInWishlist } from "../../app/Features/Wishlist/services/WishlistServices"
 import { addToWishlist } from "../../app/Features/Wishlist/wishlist"
 import { Button } from "../../Components"
 import { IncrementDecrementBtn } from "../../Components/styledComponents/StyledComponents"
@@ -18,7 +19,6 @@ export const ProductDescription = ( ) => {
         title,
         newPrice,
         oldPrice,
-        inWishlist
     } = location.state || {}
     console.log(location.state)
     const { productId } = useParams()
@@ -29,6 +29,8 @@ export const ProductDescription = ( ) => {
     const quantityInCart = getItemQuantity(products, productId)
     const [ quantity, setQuantity ] = useState(!inCart && 1 )
     const navigate = useNavigate()
+    const { products : wishlistProducts } = useSelector( state => state.wishlist )
+    const inWishlist = isProductInWishlist(wishlistProducts, productId)
 
     useEffect(()=>{
         if( inCart ){
@@ -59,7 +61,7 @@ export const ProductDescription = ( ) => {
                 <div
                     tw="w-full h-full md:(px-2 justify-start)"
                 >
-                    <p tw="text-primary-ligter w-max font-bold text-xl mb-3 mx-auto md:mx-0">{ title }</p>
+                    <p tw="text-primary-ligter w-max font-bold text-xl mb-3 mx-auto md:(mx-0 w-full)">{ title }</p>
                     <p tw="w-max mx-auto flex justify-between text-tertiary text-lg mb-7 md:(w-2/3 mx-0) ">
                         <span>Rs.{ newPrice }</span>  
                         { oldPrice > 0 && <span tw="line-through ml-3">Rs.{ oldPrice }</span>}
