@@ -18,9 +18,10 @@ export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, 
                 oldPrice,
                 inWishlist
             }}
+            tw="no-underline text-current"
         >
             <div
-                tw="flex flex-col w-full cursor-pointer duration-300 ease-in-out rounded-lg text-left pb-2 hover:shadow-xl"
+                tw="flex flex-col w-full h-full cursor-pointer duration-300 ease-in-out rounded-lg text-left pb-2 hover:shadow-xl"
             >
                 <div tw="w-full h-96 relative">
                     <img
@@ -31,9 +32,18 @@ export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, 
                     <div tw="p-1 rounded-xl bg-secondary w-max absolute right-1 bottom-1" >
                         { 
                             inWishlist ?
-                            <BsSuitHeartFill onClick={()=>wishlistDispatch(removeFromWishlist({ productId, userId }))} />
+                            <BsSuitHeartFill onClick={(evt)=>{
+                                evt.preventDefault()
+                                wishlistDispatch(removeFromWishlist({ productId, userId }))
+                            }} 
+                            />
                             :
-                            <BsSuitHeart onClick={()=>wishlistDispatch(addToWishlist({ productId, userId }))}  /> }
+                            <BsSuitHeart onClick={(evt)=>{
+                                evt.preventDefault()
+                                wishlistDispatch(addToWishlist({ productId, userId }))
+                            }}
+                            />
+                        } 
                     </div>
                 </div>
 
