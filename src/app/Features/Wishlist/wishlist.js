@@ -42,7 +42,11 @@ export const wishlistSlice = createSlice({
         resetWishlist : ( state ) => {
             state.products = []
             state.productAddedStatus = 'idle'
+            state.productRemoveStatus = 'idle'
+            state.wishlistFetchStatus = 'idle'
             state.productAddedError = null
+            state.productRemoveError = null
+            state.wishlistFetchError = null
         }
     },
     extraReducers : {
