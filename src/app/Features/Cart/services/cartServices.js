@@ -31,3 +31,10 @@ export const getItemQuantity = ( products, productId ) => {
     const foundProduct = products.filter(({ product })=> product._id === productId )
     return foundProduct[0]?.quantity
 }
+
+export const getBill = ( products ) => {
+    return products.reduce((prev, current )=> {
+        console.log(current.product)
+        return prev + ( current.quantity * current.product.price )
+    }, 0)
+}
