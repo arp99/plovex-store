@@ -61,6 +61,7 @@ export const cartSlice = createSlice({
                     quantity
                 }
             })
+            state.cartFetchStatus = 'fulfilled'
         },
         [ fetchCartItems.rejected ] : ( state ) => {
             state.cartFetchStatus = state.cartFetchError = 'error'
@@ -78,6 +79,7 @@ export const cartSlice = createSlice({
                     quantity
                 }
             })
+            state.cartUpdateStatus = 'fulfilled'
         },
         [ addToCart.rejected ] : ( state ) => {
             state.cartUpdateStatus = state.cartUpdateError = 'error'
@@ -95,6 +97,7 @@ export const cartSlice = createSlice({
                     quantity
                 }
             })
+            state.cartUpdateStatus = 'fulfilled'
         },
         [ decreaseQuantity.rejected ] : ( state ) => {
             state.cartUpdateStatus = state.cartUpdateError = 'error'
@@ -105,6 +108,14 @@ export const cartSlice = createSlice({
         },
         [ removeProduct.fulfilled ] : ( state, action ) => {
             console.log("Inside removeProduct extraReducers: ", action.payload)
+            const { products } = action.payload.data
+            state.products = products.map(({ productId, quantity }) => {
+                return {
+                    product : productId,
+                    quantity
+                }
+            })
+            state.cartUpdateStatus = 'fulfilled'
         },
         [ removeProduct.rejected ] : ( state ) => {
             state.cartUpdateStatus = state.cartUpdateError = 'error'
