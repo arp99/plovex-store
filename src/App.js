@@ -7,10 +7,11 @@ import { fetchFomWishlist } from './app/Features/Wishlist/wishlist';
 import { Navbar } from './Components';
 import { Brand, Cart, Category, Home, Login, NewReleased, ProductDescription, Profile, Signup, Wishlist } from './Pages';
 import { PrivateRoute } from './PrivateRoute/PrivateRoute';
+import jwt_decode from "jwt-decode";
+import { logout } from './app/Features/Auth/auth';
 
 function App() {
 
-  // TODO: Fetch wishlist in cart data on login 
   const { userId } = useSelector( state => state.auth )
   const { wishlistFetchStatus } = useSelector( state => state.wishlist )
   const { cartFetchStatus } = useSelector( state => state.cart )
@@ -27,6 +28,14 @@ function App() {
       dispatch(fetchCartItems({ userId }))
     }
   },[ userId, dispatch, cartFetchStatus ])
+
+  //logout user if token expired
+  useEffect(()=>{
+    const token = localStorage.getItem("token")
+    if( token && jwt_decode(token).exp*1000 < Date.now() ){
+      dispatch( logout() )
+    }
+  },[ dispatch ])
 
   return (
     <div className="App">
