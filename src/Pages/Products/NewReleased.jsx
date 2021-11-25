@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import tw from "twin.macro"
+import "twin.macro"
 import { loadNewProducts } from "../../app/Features/Products/products"
 import { isProductInWishlist } from "../../app/Features/Wishlist/services/WishlistServices"
 import { Productcard, SkeletonUI, StyledGrid } from "../../Components"
@@ -22,7 +22,7 @@ export const NewReleased = () => {
 
     console.log(new_releases)
     return(
-        <div tw="mt-36">
+        <div tw="mt-36 pb-10 px-5">
             <h2>New Releases</h2>
             <StyledGrid>
                 {

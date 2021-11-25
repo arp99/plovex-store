@@ -2,7 +2,7 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from "react-router"
-import tw from "twin.macro"
+import "twin.macro"
 import { loadCategory } from "../../app/Features/Products/products"
 import { isProductInWishlist } from "../../app/Features/Wishlist/services/WishlistServices"
 import { Productcard, SkeletonUI, StyledGrid } from "../../Components"
@@ -27,7 +27,7 @@ export const Category = () => {
     console.log("Wishlist products: ", products)
     console.log(category)
     return(
-        <div tw="mt-36">
+        <div tw="mt-36 pb-10 px-5">
             <h2>{filterValue}</h2>
             <StyledGrid>
                 {

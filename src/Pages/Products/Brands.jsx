@@ -28,7 +28,7 @@ export const Brand = () => {
     
     console.log(brand)
     return(
-        <div tw="mt-36">
+        <div tw="mt-36 pb-10 px-5">
             <h2>{filterValue}</h2>
             <StyledGrid>
                 {
