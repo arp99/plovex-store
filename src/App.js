@@ -9,6 +9,7 @@ import { Brand, Cart, Category, Home, Login, NewReleased, ProductDescription, Pr
 import { PrivateRoute } from './PrivateRoute/PrivateRoute';
 import jwt_decode from "jwt-decode";
 import { logout } from './app/Features/Auth/auth';
+import { FilterDataProvider } from './Pages/Products/context/FilterTypeProvider';
 
 function App() {
 
@@ -45,9 +46,30 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/products">
-          <Route path="new_releases" element={<NewReleased />}/>
-          <Route path="brand/:brandname" element={<Brand />}/>
-          <Route path="category/:categoryname" element={<Category />}/>
+          <Route
+            path="new_releases"
+            element={
+              <FilterDataProvider>
+                <NewReleased />
+              </FilterDataProvider>
+            }
+          />
+          <Route
+            path="brand/:brandname"
+            element={
+              <FilterDataProvider>
+                <Brand />
+              </FilterDataProvider>
+            }
+          />
+          <Route
+            path="category/:categoryname"
+            element={
+              <FilterDataProvider>
+                <Category />
+              </FilterDataProvider>
+            }
+          />
           <Route path=":productId" element={<ProductDescription />} />
         </Route>
 
