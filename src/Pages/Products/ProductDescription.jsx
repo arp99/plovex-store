@@ -22,7 +22,7 @@ export const ProductDescription = ( ) => {
     } = location.state || {}
     console.log(location.state)
     const { productId } = useParams()
-    const { userId } = useSelector( state => state.auth )
+    const { userId, token } = useSelector( state => state.auth )
     const dispatch = useDispatch()
     const { products } = useSelector( state => state.cart )
     const inCart = isProductInCart(products, productId)
@@ -74,7 +74,7 @@ export const ProductDescription = ( ) => {
                                 `
                             }
                             onClick={(evt)=>{
-                                if( userId && quantity > 1){
+                                if( userId && token && quantity > 1){
                                     dispatch(decreaseQuantity({ productId, userId }))
                                 }else{
                                     evt.preventDefault()
@@ -89,7 +89,7 @@ export const ProductDescription = ( ) => {
                                 `
                             }
                             onClick={(evt)=>{
-                                if( userId && quantity < 5 ){
+                                if( userId && token && quantity < 5 ){
                                     dispatch(addToCart({ productId, userId }))
                                 }else{
                                     evt.preventDefault()
@@ -109,7 +109,7 @@ export const ProductDescription = ( ) => {
                                 variant="primary"
                                 size="small"
                                 onClick={()=>{
-                                        if(userId){
+                                        if(userId && token){
                                             dispatch(addToCart({ productId, userId }))
                                         }else{
                                             navigate("/login")
@@ -131,7 +131,7 @@ export const ProductDescription = ( ) => {
                                 variant="secondary" 
                                 size="small"
                                 onClick={()=>{
-                                    if(userId){
+                                    if(userId && token){
                                         dispatch( addToWishlist({ productId, userId }))
                                     }else{
                                         navigate("/login")
