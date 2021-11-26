@@ -3,10 +3,11 @@ import "twin.macro"
 import { BsSuitHeart, BsSuitHeartFill } from "react-icons/bs"
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist, removeFromWishlist } from "../../app/Features/Wishlist/wishlist";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, newProduct, inWishlist }) => {
-    const { userId } = useSelector( state => state.auth )
+    const { userId, token } = useSelector( state => state.auth )
+    const navigate = useNavigate()
     const wishlistDispatch = useDispatch()
 
     return (
@@ -34,13 +35,21 @@ export const Productcard = ({ productId, productImg, title, newPrice, oldPrice, 
                             inWishlist ?
                             <BsSuitHeartFill onClick={(evt)=>{
                                 evt.preventDefault()
-                                wishlistDispatch(removeFromWishlist({ productId, userId }))
+                                if( token ){
+                                    wishlistDispatch(removeFromWishlist({ productId, userId }))
+                                }else{
+                                    navigate("/login")
+                                }
                             }} 
                             />
                             :
                             <BsSuitHeart onClick={(evt)=>{
                                 evt.preventDefault()
-                                wishlistDispatch(addToWishlist({ productId, userId }))
+                                if( token ){
+                                    wishlistDispatch(addToWishlist({ productId, userId }))
+                                }else{
+                                    navigate("/login")
+                                }
                             }}
                             />
                         } 
