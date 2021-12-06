@@ -10,6 +10,9 @@ $ cd plovex-store
 $ npm install
 ```
 
+## **Backend Repository**
+https://github.com/arp99/Plovex-store-backend
+
 ## **Technologies Used**
 
 - React
