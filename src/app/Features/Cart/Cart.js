@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { addProductToCart, decreaseProductQuantity, getCartProducts, removeProductFromCart } from "./services/cartServices"
+import { Notification } from "../../../Components"
+import { ActionTypes } from "../../../Utils/ActionConstants"
 
 export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, userId }) => {
     //so I need the token for authorization header, the userId and the productId to update cart
@@ -39,8 +41,6 @@ export const cartSlice = createSlice({
     name : "cart",
     initialState : cartInitialState,
     reducers : {
-        // TODO: Create reducers for cart 
-        // Eg: add to cart, update cart products, remove from cart, clear all cart
         resetCart : ( state ) => {
             state.products = []
             state.cartUpdateStatus = state.cartFetchStatus = 'idle'
@@ -80,9 +80,11 @@ export const cartSlice = createSlice({
                 }
             })
             state.cartUpdateStatus = 'fulfilled'
+            Notification(ActionTypes.cartSuccess, "Added to Cart")
         },
         [ addToCart.rejected ] : ( state ) => {
             state.cartUpdateStatus = state.cartUpdateError = 'error'
+            Notification(ActionTypes.cartError, "Failed to Add Product")
         },
         [ decreaseQuantity.pending ] : ( state ) => {
             state.cartUpdateStatus = 'loading'
@@ -116,9 +118,11 @@ export const cartSlice = createSlice({
                 }
             })
             state.cartUpdateStatus = 'fulfilled'
+            Notification(ActionTypes.cartSuccess, "Successfully removed")
         },
         [ removeProduct.rejected ] : ( state ) => {
             state.cartUpdateStatus = state.cartUpdateError = 'error'
+            Notification(ActionTypes.cartError, "Failed to remove Product")
         }
     }
 })

@@ -1,45 +1,64 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Route, Routes } from 'react-router';
-import './App.css';
-import { fetchCartItems } from './app/Features/Cart/Cart';
-import { fetchFomWishlist } from './app/Features/Wishlist/wishlist';
-import { Navbar } from './Components';
-import { Brand, Cart, Category, Home, Login, NewReleased, ProductDescription, Profile, Signup, Wishlist } from './Pages';
-import { PrivateRoute } from './PrivateRoute/PrivateRoute';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, Routes } from "react-router";
+import "./App.css";
+import { fetchCartItems } from "./app/Features/Cart/Cart";
+import { fetchFomWishlist } from "./app/Features/Wishlist/wishlist";
+import { Navbar } from "./Components";
+import {
+  Brand,
+  Cart,
+  Category,
+  Home,
+  Login,
+  NewReleased,
+  ProductDescription,
+  Profile,
+  Signup,
+  Wishlist,
+} from "./Pages";
+import { PrivateRoute } from "./PrivateRoute/PrivateRoute";
 import jwt_decode from "jwt-decode";
-import { logout } from './app/Features/Auth/auth';
-import { FilterDataProvider } from './Pages/Products/context/FilterTypeProvider';
+import { logout } from "./app/Features/Auth/auth";
+import { FilterDataProvider } from "./Pages/Products/context/FilterTypeProvider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
+  const { userId } = useSelector((state) => state.auth);
+  const { wishlistFetchStatus } = useSelector((state) => state.wishlist);
+  const { cartFetchStatus } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
-  const { userId } = useSelector( state => state.auth )
-  const { wishlistFetchStatus } = useSelector( state => state.wishlist )
-  const { cartFetchStatus } = useSelector( state => state.cart )
-  const dispatch = useDispatch()
-
-  useEffect(()=>{
-    if( userId && wishlistFetchStatus === 'idle'){
-      dispatch( fetchFomWishlist({ userId }))
+  useEffect(() => {
+    if (userId && wishlistFetchStatus === "idle") {
+      dispatch(fetchFomWishlist({ userId }));
     }
-  },[ userId, dispatch, wishlistFetchStatus ])
+  }, [userId, dispatch, wishlistFetchStatus]);
 
-  useEffect(()=>{
-    if( userId && cartFetchStatus === 'idle'){
-      dispatch(fetchCartItems({ userId }))
+  useEffect(() => {
+    if (userId && cartFetchStatus === "idle") {
+      dispatch(fetchCartItems({ userId }));
     }
-  },[ userId, dispatch, cartFetchStatus ])
+  }, [userId, dispatch, cartFetchStatus]);
 
   //logout user if token expired
-  useEffect(()=>{
-    const token = localStorage.getItem("token")
-    if( token && jwt_decode(token).exp*1000 < Date.now() ){
-      dispatch( logout() )
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && jwt_decode(token).exp * 1000 < Date.now()) {
+      dispatch(logout());
     }
-  },[ dispatch ])
+  }, [dispatch]);
 
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        pauseOnHover={false}
+        draggable
+        draggableDirection="x"
+      />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -73,28 +92,31 @@ function App() {
           <Route path=":productId" element={<ProductDescription />} />
         </Route>
 
-        <Route path="/wishlist" 
-          element={ 
+        <Route
+          path="/wishlist"
+          element={
             <PrivateRoute>
               <Wishlist />
-            </PrivateRoute> 
-          } 
+            </PrivateRoute>
+          }
         />
-        <Route path="/cart" 
-          element={ 
+        <Route
+          path="/cart"
+          element={
             <PrivateRoute>
               <Cart />
-            </PrivateRoute> 
-          } 
+            </PrivateRoute>
+          }
         />
-        <Route path="/profile" 
-          element={ 
+        <Route
+          path="/profile"
+          element={
             <PrivateRoute>
               <Profile />
-            </PrivateRoute> 
-          } 
+            </PrivateRoute>
+          }
         />
-      </Routes>      
+      </Routes>
     </div>
   );
 }

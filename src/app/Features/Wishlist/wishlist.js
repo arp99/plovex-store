@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { addProductToWishlist, getWishlistItems, removeProductFromWishlist } from "./services/WishlistServices"
+import { Notification } from "../../../Components"
+import { ActionTypes } from "../../../Utils/ActionConstants"
+
 
 export const addToWishlist = createAsyncThunk('wishlist/addToWishlist', async({ productId, userId })=> {
     const response = await addProductToWishlist(productId, userId)
@@ -37,8 +40,6 @@ export const wishlistSlice = createSlice({
     name : "wishlist",
     initialState : wishlistInitialState,
     reducers : {
-        // TODO: Create reducers for wishlist
-        // Eg: add to wishlist, remove from wishlist
         resetWishlist : ( state ) => {
             state.products = []
             state.productAddedStatus = 'idle'
@@ -59,9 +60,11 @@ export const wishlistSlice = createSlice({
             console.log("Inside addToWishlist extraReducers: ", responseData)
             state.products.push( responseData.product )
             state.productAddedStatus = 'fulfilled'
+            Notification(ActionTypes.wishlistSuccess, "Added to Wishlist")
         },
         [ addToWishlist.rejected ] : ( state ) => {
             state.productAddedStatus = state.productAddedError = 'error'
+            Notification(ActionTypes.wishlistError, "Failed to Add in Wishlist")
         },
         [ removeFromWishlist.pending ] : ( state ) => {
             state.productRemoveStatus = 'loading'
@@ -72,9 +75,11 @@ export const wishlistSlice = createSlice({
             state.products = state.products.filter(product => product._id !== productId )
             console.log("Inside removeFromWishlist extraReducers: ", responseData)
             state.productRemoveStatus = 'fulfilled'
+            Notification(ActionTypes.wishlistSuccess, "Removed from Wishlist")
         },
         [ removeFromWishlist.rejected ] : ( state ) => {
             state.productRemoveStatus = state.productRemoveError = 'error'
+            Notification(ActionTypes.wishlistError, "Failed to remove")
         },
         [ fetchFomWishlist.pending ] : ( state ) => {
             state.wishlistFetchStatus = 'loading'
