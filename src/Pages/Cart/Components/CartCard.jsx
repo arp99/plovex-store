@@ -3,7 +3,7 @@ import { css } from "@emotion/react"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import tw from "twin.macro"
-import { addToCart, decreaseQuantity, removeProduct } from "../../../app/Features/Cart/Cart"
+import { decreaseQuantity, removeProduct, addQuantity } from "../../../app/Features/Cart/Cart"
 import { Button } from "../../../Components"
 import { IncrementDecrementBtn } from "../../../Components/styledComponents/StyledComponents"
 
@@ -76,7 +76,7 @@ export const CartCard = ({ product, quantity, userId }) => {
                         }
                         onClick={(evt)=>{
                             if( userId && quantity < 5 ){
-                                dispatch(addToCart({ productId, userId }))
+                                dispatch(addQuantity({ productId, userId }))
                             }else{
                                 evt.preventDefault()
                             }

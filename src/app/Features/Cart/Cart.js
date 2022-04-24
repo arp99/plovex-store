@@ -10,6 +10,11 @@ export const addToCart = createAsyncThunk('cart/addToCart', async ({ productId, 
     return response.data        
 })
 
+export const addQuantity = createAsyncThunk('cart/addQuantity', async ({ productId, userId }) => {
+    const response = await addProductToCart( productId, userId )
+    return response.data
+})
+
 export const decreaseQuantity = createAsyncThunk('cart/decreaseQuantity', async ({ productId, userId }) => {
     const response = await decreaseProductQuantity(productId, userId)
     console.log("Inside decreaseQuantity async thunk: ", { response })
@@ -85,6 +90,23 @@ export const cartSlice = createSlice({
         [ addToCart.rejected ] : ( state ) => {
             state.cartUpdateStatus = state.cartUpdateError = 'error'
             Notification(ActionTypes.cartError, "Failed to Add Product")
+        },
+        [ addQuantity.pending ] : ( state ) => {
+            state.cartUpdateStatus = 'loading'
+            state.cartUpdateError = null
+        },
+        [ addQuantity.fulfilled ] : ( state, action ) => {
+            const { products } = action.payload.data
+            state.products = products.map(({ productId, quantity }) => {
+                return {
+                    product : productId,
+                    quantity
+                }
+            })
+            state.cartUpdateStatus = 'fulfilled'
+        },
+        [ addQuantity.rejected ] : ( state ) => {
+            state.cartUpdateStatus = state.cartUpdateError = 'error'
         },
         [ decreaseQuantity.pending ] : ( state ) => {
             state.cartUpdateStatus = 'loading'

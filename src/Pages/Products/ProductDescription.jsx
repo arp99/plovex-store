@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useParams, useNavigate } from "react-router"
 import { Link } from "react-router-dom"
 import tw from "twin.macro"
-import { addToCart, decreaseQuantity } from "../../app/Features/Cart/Cart"
+import { addToCart, decreaseQuantity, addQuantity } from "../../app/Features/Cart/Cart"
 import { getItemQuantity, isProductInCart } from "../../app/Features/Cart/services/cartServices"
 import { isProductInWishlist } from "../../app/Features/Wishlist/services/WishlistServices"
 import { addToWishlist } from "../../app/Features/Wishlist/wishlist"
@@ -27,7 +27,7 @@ export const ProductDescription = ( ) => {
     const { products } = useSelector( state => state.cart )
     const inCart = isProductInCart(products, productId)
     const quantityInCart = getItemQuantity(products, productId)
-    const [ quantity, setQuantity ] = useState(!inCart && 1 )
+    const [ quantity, setQuantity ] = useState(!inCart && 0 )
     const navigate = useNavigate()
     const { products : wishlistProducts } = useSelector( state => state.wishlist )
     const inWishlist = isProductInWishlist(wishlistProducts, productId)
@@ -70,7 +70,7 @@ export const ProductDescription = ( ) => {
                         <IncrementDecrementBtn 
                             css={
                                 css`
-                                    ${quantity === 1 && tw`cursor-not-allowed`}
+                                    ${quantity <= 1 && tw`cursor-not-allowed`}
                                 `
                             }
                             onClick={(evt)=>{
@@ -85,12 +85,12 @@ export const ProductDescription = ( ) => {
                         <IncrementDecrementBtn
                             css={
                                 css`
-                                    ${ quantity === 5 && tw`cursor-not-allowed`}
+                                    ${ (quantity === 0 || quantity === 5) && tw`cursor-not-allowed`}
                                 `
                             }
                             onClick={(evt)=>{
-                                if( userId && token && quantity < 5 ){
-                                    dispatch(addToCart({ productId, userId }))
+                                if( userId && token && (quantity > 0 && quantity < 5)){
+                                    dispatch(addQuantity({ productId, userId }))
                                 }else{
                                     evt.preventDefault()
                                 }
