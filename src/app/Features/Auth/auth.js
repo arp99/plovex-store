@@ -18,6 +18,21 @@ export const login = createAsyncThunk(
   }
 );
 
+export const guestLogin = createAsyncThunk(
+  "auth/guestLogin",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await loginUser(email, password);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue({
+        data: err.response.data,
+        status: err.response.status,
+      });
+    }
+  }
+);
+
 export const signup = createAsyncThunk(
   "auth/signup",
   async ({ firstName, lastName, email, password }, { rejectWithValue }) => {
@@ -37,6 +52,7 @@ const authInitialState = {
   token: localStorage.getItem("token") || null,
   userId: localStorage.getItem("id") || null,
   loggedInStatus: localStorage.getItem("token") ? "fulfilled" : "idle",
+  guestLoginStatus : localStorage.getItem("token") ? "fulfilled" : "idle",
   loggedInError: null,
   signupStatus: "idle",
   signupError: null,
@@ -52,6 +68,7 @@ export const authSlice = createSlice({
       state.token = null;
       state.userId = null;
       state.loggedInStatus = "idle";
+      state.guestLoginStatus = "idle";
       state.loggedInError = null;
       Notification(ActionTypes.logoutSuccess, "Logout Successfull");
     },
@@ -78,6 +95,28 @@ export const authSlice = createSlice({
     [login.rejected]: (state, action) => {
       const { data, status } = action.payload;
       state.loggedInStatus = state.loggedInError = "error";
+      if (status === 401) {
+        Notification(ActionTypes.loginError, "Wrong Credentials!");
+      } else {
+        Notification(ActionTypes.loginError, data.message);
+      }
+    },
+    [guestLogin.pending]: (state) => {
+      state.guestLoginStatus = "loading";
+      state.loggedInError = null;
+    },
+    [guestLogin.fulfilled]: (state, action) => {
+      const { token, userId } = action.payload;
+      state.token = token;
+      state.userId = userId;
+      state.guestLoginStatus = state.loggedInStatus = "fulfilled";
+      localStorage.setItem("token", token);
+      localStorage.setItem("id", userId);
+      Notification(ActionTypes.loginSuccess, "Login Success");
+    },
+    [guestLogin.rejected]: (state, action) => {
+      const { data, status } = action.payload;
+      state.guestLoginStatus = state.loggedInStatus = state.loggedInError = "error";
       if (status === 401) {
         Notification(ActionTypes.loginError, "Wrong Credentials!");
       } else {
