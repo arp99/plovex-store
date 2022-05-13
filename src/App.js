@@ -18,37 +18,38 @@ import {
   Wishlist,
 } from "./Pages";
 import { PrivateRoute } from "./PrivateRoute/PrivateRoute";
-import jwt_decode from "jwt-decode";
 import { logout } from "./app/Features/Auth/auth";
+import { isTokenExpired } from "./Utils/checkTokenValidity";
 import { FilterDataProvider } from "./Pages/Products/context/FilterTypeProvider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
 
 function App() {
-  const { userId } = useSelector((state) => state.auth);
+  const { userId, token } = useSelector((state) => state.auth);
   const { wishlistFetchStatus } = useSelector((state) => state.wishlist);
   const { cartFetchStatus } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (userId && wishlistFetchStatus === "idle") {
-      dispatch(fetchFomWishlist({ userId }));
-    }
-  }, [userId, dispatch, wishlistFetchStatus]);
-
-  useEffect(() => {
-    if (userId && cartFetchStatus === "idle") {
-      dispatch(fetchCartItems({ userId }));
-    }
-  }, [userId, dispatch, cartFetchStatus]);
-
-  //logout user if token expired
+   //logout user if token expired
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token && jwt_decode(token).exp * 1000 < Date.now()) {
+    if (token && isTokenExpired(token)) {
       dispatch(logout());
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (userId && wishlistFetchStatus === "idle" && !isTokenExpired(token)) {
+      dispatch(fetchFomWishlist({ userId }));
+    }
+  }, [userId, dispatch, wishlistFetchStatus, token]);
+
+  useEffect(() => {
+    if (userId && cartFetchStatus === "idle" && !isTokenExpired(token)) {
+      dispatch(fetchCartItems({ userId }));
+    }
+  }, [userId, dispatch, cartFetchStatus, token]);
+
 
   return (
     <div className="App">
