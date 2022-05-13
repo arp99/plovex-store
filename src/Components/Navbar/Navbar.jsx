@@ -2,7 +2,7 @@
 import { css } from "@emotion/react"
 import { useState } from "react"
 import { AiOutlineMenu } from "react-icons/ai"
-import { BsCartFill, BsHeartFill, BsSearch } from "react-icons/bs"
+import { BsSearch } from "react-icons/bs"
 import { BiLogIn, BiLogOut } from "react-icons/bi"
 import { Link } from "react-router-dom"
 import tw from "twin.macro"
@@ -11,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux"
 import { logout } from "../../app/Features/Auth/auth"
 import { resetWishlist } from "../../app/Features/Wishlist/wishlist"
 import { resetCart } from "../../app/Features/Cart/Cart"
+import { CartIcon } from "./CartIcon"
+import { WishlistIcon } from "./WishlistIcon"
 
 export const Navbar = () => {
     const [ showMenu, setShowMenu ] = useState(false)
@@ -34,10 +36,10 @@ export const Navbar = () => {
             }>
                 <BsSearch  cursor="pointer" size={22} />
                 <Link to="/wishlist" tw="no-underline text-current">
-                    <BsHeartFill cursor="pointer" size={22} />
+                    <WishlistIcon />
                 </Link>
                 <Link to="/cart" tw="no-underline text-current">
-                    <BsCartFill cursor="pointer" size={22} />
+                   <CartIcon />
                 </Link>
                 {
                     !token && 
