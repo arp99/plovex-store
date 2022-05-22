@@ -21,6 +21,10 @@ export const Notification = (ActionType, message) => {
       return toast.success(message);
     case ActionTypes.wishlistError:
       return toast.error(message);
+    case ActionTypes.paymentError:
+      return toast.error(message);
+    case ActionTypes.paymentSuccess:
+      return toast.success(message);
     default:
       return toast(message);
   }

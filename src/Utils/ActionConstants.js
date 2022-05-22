@@ -3,9 +3,11 @@ export const ActionTypes = {
   loginError: "LOGIN_ERROR",
   signupSuccess: "SIGNUP_SUCCESS",
   signupError: "SIGNUP_ERROR",
-  logoutSuccess : "LOGOUT_SUCCESS",
+  logoutSuccess: "LOGOUT_SUCCESS",
   wishlistSuccess: "WISHLIST_SUCCESS",
   wishlistError: "WISHLIST_ERRROR",
   cartSuccess: "CART_SUCCESS",
   cartError: "CART_ERROR",
+  paymentError: "PAYMENT_ERROR",
+  paymentSuccess: "PAYMENT_SUCCESS",
 };
