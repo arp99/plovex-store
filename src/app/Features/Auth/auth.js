@@ -70,6 +70,8 @@ export const authSlice = createSlice({
       state.loggedInStatus = "idle";
       state.guestLoginStatus = "idle";
       state.loggedInError = null;
+      state.signupStatus = "idle";
+      state.signupError = null;
       Notification(ActionTypes.logoutSuccess, "Logout Successfull");
     },
     resetAuthStatus: (state) => {

@@ -5,8 +5,9 @@ import { signup } from "../../app/Features/Auth/auth"
 import { Button } from "../../Components"
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { FlexCenter, FormContainer, InputGroup, StyledError } from "./StyledComponents/StyledComponents"
+import { useEffect } from "react";
 
 const initialValues = {
     firstName : "",
@@ -27,12 +28,19 @@ const validationSchema = Yup.object({
 
 export const Signup = () => {
     const signupDispatch = useDispatch()
+    const navigate = useNavigate()
     const { signupStatus } = useSelector( state => state.auth )
 
-    const handleLogin = (values) => {
+    const handleLogin = (values, { resetForm }) => {
         const  { firstName, lastName, email, password } = values    
         signupDispatch(signup({ firstName, lastName, email, password }))
+        resetForm()
     }
+    useEffect(()=> {
+        if(signupStatus === "fulfilled"){
+            setTimeout(()=> navigate("/login"), 1500 )
+        }
+    },[signupStatus, navigate])
   
     return (
         <Formik
@@ -60,7 +68,7 @@ export const Signup = () => {
                         </InputGroup>
                         <InputGroup>
                             <label htmlFor="password">Password</label>
-                            <Field type="text" id="password" name="password" autoComplete="off" />
+                            <Field type="password" id="password" name="password" autoComplete="off" />
                             <ErrorMessage component={StyledError} name="password" />
                         </InputGroup>
                         <InputGroup>
