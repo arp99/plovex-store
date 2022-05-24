@@ -31,10 +31,9 @@ export const Navbar = () => {
             </div>
             <div css={
                 css`
-                    ${ tw`w-40 flex justify-between`}
+                    ${ tw`w-32 flex justify-between`}
                 `
             }>
-                <BsSearch  cursor="pointer" size={22} />
                 <Link to="/wishlist" tw="no-underline text-current">
                     <WishlistIcon />
                 </Link>

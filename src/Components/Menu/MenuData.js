@@ -82,11 +82,6 @@ const MenuData = [
                 route : "/products/brand/flora"
             }
         ]
-    },
-    {
-        id : uuidv4(),
-        title : "About Us",
-        expandable : false
     }
 ]
 
