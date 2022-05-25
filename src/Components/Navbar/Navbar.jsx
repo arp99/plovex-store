@@ -12,6 +12,7 @@ import { resetWishlist } from "../../app/Features/Wishlist/wishlist"
 import { resetCart } from "../../app/Features/Cart/Cart"
 import { CartIcon } from "./CartIcon"
 import { WishlistIcon } from "./WishlistIcon"
+import { resetUser } from "../../app/Features/User/User"
 
 export const Navbar = () => {
     const [ showMenu, setShowMenu ] = useState(false)
@@ -54,6 +55,7 @@ export const Navbar = () => {
                             dispatch( logout() )
                             dispatch( resetWishlist() )
                             dispatch( resetCart() )
+                            dispatch( resetUser() )
                         }}
                     />                    
                 }

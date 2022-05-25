@@ -2,15 +2,11 @@
 import { css } from "@emotion/react";
 import tw from "twin.macro";
 import { Button } from "../../../Components";
-import { loadRazorPay } from "../services/cartServices";
-import { ClipLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
 
-export const PriceDetails = ({
-  itemQuantity,
-  bill,
-  setPaymentStatus,
-  paymentStatus,
-}) => {
+export const PriceDetails = ({ itemQuantity, bill }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       css={css`
@@ -35,14 +31,9 @@ export const PriceDetails = ({
         <Button
           variant="primary"
           size="small"
-          onClick={() => loadRazorPay(bill, setPaymentStatus)}
+          onClick={() => navigate("/checkout")}
         >
-          {paymentStatus === "loading" && (
-            <>
-              Processing <ClipLoader size={15} color="white" loading={true} />
-            </>
-          )}
-          {paymentStatus !== "loading" && "Place Order"}
+          Checkout
         </Button>
       </div>
     </div>

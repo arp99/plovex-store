@@ -13,7 +13,7 @@ export const makeOrder = async (amount) => {
   }
 };
 
-export const loadRazorPay = async (amount, setPaymentStatus) => {
+export const loadRazorPay = async (amount, setPaymentStatus, user) => {
   setPaymentStatus("loading");
   const KEY = process.env.RAZORPAY_KEY_ID;
   const {
@@ -39,10 +39,10 @@ export const loadRazorPay = async (amount, setPaymentStatus) => {
         setPaymentStatus("fulfilled");
       },
     },
-    // prefill: {
-    //   name: user ? user?.name : "",
-    //   email: user ? user.email : "",
-    // },
+    prefill: {
+      name: user ? user?.name : "",
+      email: user ? user.email : "",
+    },
     theme: {
       color: "#231f20",
     },

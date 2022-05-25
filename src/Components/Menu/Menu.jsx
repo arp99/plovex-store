@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../app/Features/Auth/auth";
 import { resetWishlist } from "../../app/Features/Wishlist/wishlist";
 import { resetCart } from "../../app/Features/Cart/Cart";
+import { resetUser } from "../../app/Features/User/User";
 
 const StyledMenuItem = styled.div`
   border-bottom-width: 1px;
@@ -113,6 +114,7 @@ export const Menu = ({ hideMenu, menuOpen }) => {
                   dispatch(logout());
                   dispatch(resetWishlist());
                   dispatch(resetCart());
+                  dispatch(resetUser());
                   closeMenu();
                 }}
               >

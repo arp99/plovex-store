@@ -10,6 +10,7 @@ import {
   Brand,
   Cart,
   Category,
+  Checkout,
   Home,
   Login,
   NewReleased,
@@ -121,6 +122,14 @@ function App() {
           element={
             <PrivateRoute>
               <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute>
+              <Checkout />
             </PrivateRoute>
           }
         />

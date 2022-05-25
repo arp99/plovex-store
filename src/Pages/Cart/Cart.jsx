@@ -3,21 +3,18 @@ import "twin.macro";
 import { Button } from "../../Components";
 import { useSelector } from "react-redux";
 import EmptyCart from "./assets/nothing_found.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { css } from "@emotion/react";
 import tw from "twin.macro";
 import { CartCard } from "./Components/CartCard";
 import { PriceDetails } from "./Components/PriceDetails";
 import { getBill } from "../../app/Features/Cart/services/cartServices";
-import { useEffect, useMemo, useState } from "react";
-import { loadRazorPay } from "./services/cartServices";
-import { ClipLoader } from "react-spinners";
+import { useEffect, useMemo } from "react";
 
 export const Cart = () => {
   const { products, cartFetchStatus } = useSelector((state) => state.cart);
   const { userId } = useSelector((state) => state.auth);
-  const [paymentStatus, setPaymentStatus] = useState("idle");
-
+  const navigate = useNavigate();
   const billAmount = useMemo(() => getBill(products), [products]);
 
   useEffect(() => {
@@ -74,26 +71,12 @@ export const Cart = () => {
                 ${tw`w-full sticky bottom-0 text-right py-2 bg-secondary`}
               `}
             >
-              <Button
-                variant="primary"
-                onClick={() => loadRazorPay(billAmount, setPaymentStatus)}
-              >
-                {paymentStatus === "loading" && (
-                  <>
-                    Processing{" "}
-                    <ClipLoader size={15} color="white" loading={true} />
-                  </>
-                )}
-                {paymentStatus !== "loading" && "Place Order"}
+              <Button variant="primary" onClick={() => navigate("/checkout")}>
+                Checkout
               </Button>
             </div>
           </div>
-          <PriceDetails
-            itemQuantity={products.length}
-            bill={billAmount}
-            setPaymentStatus={setPaymentStatus}
-            paymentStatus={paymentStatus}
-          />
+          <PriceDetails itemQuantity={products.length} bill={billAmount} />
         </>
       )}
     </main>

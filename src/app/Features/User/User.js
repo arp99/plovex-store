@@ -1,15 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getUserDataService } from "./services/userServices";
+import { addAddressService, getUserDataService } from "./services/userServices";
 
 export const getUserData = createAsyncThunk("user/getUserData", async () => {
   const response = await getUserDataService();
   return response.data;
 });
 
-// export const addAddress = createAsyncThunk("user/addAddress", async ({ address }) => {
-//   const response = await addAddressService()
-//   return response.data
-// })
+export const addAddress = createAsyncThunk(
+  "user/addAddress",
+  async ({ address }) => {
+    const response = await addAddressService(address);
+    return response.data;
+  }
+);
 
 const userInitialState = {
   userId: "",
@@ -50,11 +53,26 @@ export const userSlice = createSlice({
       state.firstName = data.firstName;
       state.lastName = data.lastName;
       state.email = data.email;
+      state.address = data.address;
       state.userDataStatus = "fulfilled";
       state.userDataError = null;
     },
     [getUserData.pending]: (state) => {
       state.userDataStatus = state.userDataError = "error";
+    },
+    [addAddress.pending]: (state) => {
+      state.addAddressStatus = "loading";
+      state.addAddressError = null;
+    },
+    [addAddress.fulfilled]: (state, action) => {
+      console.log("Inside extraReducers of addAddress: ", action.payload);
+      const { address } = action.payload;
+      state.address = [...state.address, address];
+      state.addAddressStatus = "fulfilled";
+      state.addAddressError = null;
+    },
+    [addAddress.rejected]: (state) => {
+      state.addAddressStatus = state.addAddressError = "error";
     },
   },
 });
