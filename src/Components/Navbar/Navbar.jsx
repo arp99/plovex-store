@@ -2,7 +2,6 @@
 import { css } from "@emotion/react"
 import { useState } from "react"
 import { AiOutlineMenu } from "react-icons/ai"
-import { BsSearch } from "react-icons/bs"
 import { BiLogIn, BiLogOut } from "react-icons/bi"
 import { Link } from "react-router-dom"
 import tw from "twin.macro"

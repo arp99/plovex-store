@@ -4,7 +4,6 @@ import { loadData } from "./services/loadData"
 // TODO: create async thunk for loading data from API 
 export const loadHomePageData = createAsyncThunk('homePage/loadHomePageData', async ()=>{
     const response = await loadData()
-    console.log("From loadHomePageData async thunk:", { response })
     return response.data
 })
 
@@ -29,7 +28,6 @@ export const homePageSlice = createSlice({
             state.error = null
         },
         [ loadHomePageData.fulfilled ] : ( state, action ) => {
-            console.log("from loadHomePageData in extraReducers: ", action.payload )
             state.homePageData = action.payload.homePageData
             state.status = 'fulfilled'
         },

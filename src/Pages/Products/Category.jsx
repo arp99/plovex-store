@@ -28,8 +28,6 @@ export const Category = () => {
   }, [productDispatch, filterValue, category]);
 
   const { products } = useSelector((state) => state.wishlist);
-  console.log("Wishlist products: ", products);
-  console.log(category);
   const { filterOption, setFilterChosen } = useFilterOption();
 
   return (

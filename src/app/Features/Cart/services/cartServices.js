@@ -34,7 +34,6 @@ export const getItemQuantity = ( products, productId ) => {
 
 export const getBill = ( products ) => {
     return products.reduce((prev, current )=> {
-        console.log(current.product)
         return prev + ( current.quantity * current.product.price )
     }, 0)
 }

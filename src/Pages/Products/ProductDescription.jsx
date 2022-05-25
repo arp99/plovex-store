@@ -20,7 +20,6 @@ export const ProductDescription = ( ) => {
         newPrice,
         oldPrice,
     } = location.state || {}
-    console.log(location.state)
     const { productId } = useParams()
     const { userId, token } = useSelector( state => state.auth )
     const dispatch = useDispatch()

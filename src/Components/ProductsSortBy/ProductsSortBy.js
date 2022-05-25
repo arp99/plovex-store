@@ -13,7 +13,6 @@ const dropDownStyle = css`
 `;
 
 export const ProductsSortBy = ({ currentFilter, setFilter }) => {
-  console.log("Inside ProductsSortBy component: filter=", currentFilter);
   const [isDropDownOpen, setDropDownOpen] = useState(false);
   return (
     <div css={dropDownStyle} onClick={() => setDropDownOpen((prev) => !prev)}>

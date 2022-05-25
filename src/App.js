@@ -4,6 +4,7 @@ import { Route, Routes } from "react-router";
 import "./App.css";
 import { fetchCartItems } from "./app/Features/Cart/Cart";
 import { fetchFomWishlist } from "./app/Features/Wishlist/wishlist";
+import { getUserData } from "./app/Features/User/User";
 import { Navbar } from "./Components";
 import {
   Brand,
@@ -28,15 +29,22 @@ function App() {
   const { userId, token } = useSelector((state) => state.auth);
   const { wishlistFetchStatus } = useSelector((state) => state.wishlist);
   const { cartFetchStatus } = useSelector((state) => state.cart);
+  const { userDataStatus } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-   //logout user if token expired
+  //logout user if token expired
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token && isTokenExpired(token)) {
       dispatch(logout());
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (userId && userDataStatus === "idle" && !isTokenExpired(token)) {
+      dispatch(getUserData());
+    }
+  }, [userId, dispatch, userDataStatus, token]);
 
   useEffect(() => {
     if (userId && wishlistFetchStatus === "idle" && !isTokenExpired(token)) {
@@ -49,7 +57,6 @@ function App() {
       dispatch(fetchCartItems({ userId }));
     }
   }, [userId, dispatch, cartFetchStatus, token]);
-
 
   return (
     <div className="App">

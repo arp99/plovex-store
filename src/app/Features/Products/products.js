@@ -3,14 +3,11 @@ import { fecthNewReleases, fetchProductByBrand, fetchProductByCategory } from ".
 
 export const loadNewProducts = createAsyncThunk('product/loadNewProducts', async ()=> {
     const response = await fecthNewReleases()
-    console.log("From loadNewProducts async thunk:", { response })
     return response.data
 })
 
 export const loadCategory = createAsyncThunk('product/loadCategory', async ({ category }) =>{
-    console.log(category)
     const response = await fetchProductByCategory(category)
-    console.log("From loadCategory async thunk:",{ response })
     const responseData = response.data
     return {
         category,
@@ -19,9 +16,7 @@ export const loadCategory = createAsyncThunk('product/loadCategory', async ({ ca
 })
 
 export const loadBrand = createAsyncThunk('product/loadBrand', async ({ brand }) => {
-    console.log(brand)
     const response = await fetchProductByBrand(brand)
-    console.log("From loadBrand async thunk:", { response })
     const responseData = response.data
     return {
         brand,
@@ -59,7 +54,6 @@ export const productsSlice = createSlice({
             state.productFetchError = null
         },
         [ loadCategory.fulfilled ] : ( state, action ) => {
-            console.log("From loadCategory extraReducers: ", action.payload)
             const { category, responseData } = action.payload
             state.category[category] = responseData.data
             state.productFetched = 'fulfilled'
@@ -72,7 +66,6 @@ export const productsSlice = createSlice({
             state.productFetchError = null
         },
         [ loadNewProducts.fulfilled ] : ( state, action ) => {
-            console.log("from loadNewProducts extra reducers:", action.payload)
             state.new_releases = action.payload.data
             state.productFetched = 'fulfilled'
         },

@@ -25,7 +25,6 @@ export const NewReleased = () => {
   const { products } = useSelector((state) => state.wishlist);
   const { filterOption, setFilterChosen } = useFilterOption();
 
-  console.log(new_releases);
   return (
     <div tw="mt-36 pb-10 px-5 relative">
       <ProductsSortBy

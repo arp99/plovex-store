@@ -16,13 +16,10 @@ export const Home = ( props ) => {
     const homePageDispatch = useDispatch()
     useEffect(()=>{
         if( status === 'idle' && homePageData === null ){
-            console.log("hello")
             homePageDispatch( loadHomePageData() )
         }
     },[ homePageData, homePageDispatch, status ])
 
-    console.log(homePageData)
-    console.log("wishlist products: ", products)
     return(
         <main tw="w-full min-h-screen pt-24">
             <div css={css`height: 720px`}>

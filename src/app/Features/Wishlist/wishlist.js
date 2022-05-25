@@ -21,7 +21,6 @@ export const removeFromWishlist = createAsyncThunk('wishlist/removeFromWishlist'
 
 export const fetchFomWishlist = createAsyncThunk('wishlist/fetchFomWishlist', async({ userId })=> {
     const response = await getWishlistItems(userId)
-    console.log("Inside fetchFomWishlist async thunk: ", { response })
     return response.data
 })
 
@@ -57,7 +56,6 @@ export const wishlistSlice = createSlice({
         },
         [ addToWishlist.fulfilled ] : ( state, action ) => {
             const { responseData } = action.payload
-            console.log("Inside addToWishlist extraReducers: ", responseData)
             state.products.push( responseData.product )
             state.productAddedStatus = 'fulfilled'
             Notification(ActionTypes.wishlistSuccess, "Added to Wishlist")
@@ -71,9 +69,8 @@ export const wishlistSlice = createSlice({
             state.productRemoveError = null
         },
         [ removeFromWishlist.fulfilled ] : ( state, action ) => {
-            const { responseData, productId } = action.payload
+            const { productId } = action.payload
             state.products = state.products.filter(product => product._id !== productId )
-            console.log("Inside removeFromWishlist extraReducers: ", responseData)
             state.productRemoveStatus = 'fulfilled'
             Notification(ActionTypes.wishlistSuccess, "Removed from Wishlist")
         },
@@ -86,7 +83,6 @@ export const wishlistSlice = createSlice({
             state.wishlistFetchError = null
         },
         [ fetchFomWishlist.fulfilled ] : ( state, action ) => {
-            console.log("Inside fetchFomWishlist extraReducers: ", action.payload)
             const { products } = action.payload.data
             state.products = products.map(({ productId }) => productId )
             state.wishlistFetchStatus = 'fulfilled'

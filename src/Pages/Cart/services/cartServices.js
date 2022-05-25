@@ -9,7 +9,6 @@ export const makeOrder = async (amount) => {
     });
     return response.data;
   } catch (err) {
-    console.log(err.message);
     Notification(ActionTypes.paymentError, "Failed to create Order");
   }
 };
@@ -28,10 +27,10 @@ export const loadRazorPay = async (amount, setPaymentStatus) => {
     name: "Plovex Store",
     order_id: orderId,
     handler: function (response) {
-      const paymentInfo = {
-        orderId: response.razorpay_order_id,
-        paymentId: response.razorpay_payment_id,
-      };
+      // const paymentInfo = {
+      //   orderId: response.razorpay_order_id,
+      //   paymentId: response.razorpay_payment_id,
+      // };
       setPaymentStatus("fulfilled");
       Notification(ActionTypes.paymentSuccess, "Payment Successfull");
     },
