@@ -105,7 +105,7 @@ export const Checkout = () => {
                 _id,
                 city,
                 country,
-                houseNumberber,
+                houseNumber,
                 mobile,
                 pinCode,
                 state,
@@ -126,7 +126,7 @@ export const Checkout = () => {
                     <label htmlFor={_id} tw="w-4/5">
                       <div>
                         <p>
-                          House no: {houseNumberber} |{" "}
+                          House no: {houseNumber} |{" "}
                           <span>City : {city}</span>
                         </p>
                         <p>State: {state}</p>
